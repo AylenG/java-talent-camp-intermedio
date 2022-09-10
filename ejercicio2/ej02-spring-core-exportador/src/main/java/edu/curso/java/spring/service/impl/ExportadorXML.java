@@ -1,8 +1,11 @@
 package edu.curso.java.spring.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import edu.curso.java.spring.Persona;
 import edu.curso.java.spring.service.Exportador;
 
+@Service
 public class ExportadorXML implements Exportador {
 
 	@Override

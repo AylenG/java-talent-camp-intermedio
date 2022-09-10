@@ -1,7 +1,6 @@
 package edu.curso.java.spring;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
 
@@ -9,7 +8,9 @@ public class Main {
 
 		Persona persona = new Persona("Victoria", 37, "Lugones 4402");
 
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+		applicationContext.register(SpringConfiguration.class);
+		applicationContext.refresh();
 
 		GeneradorDeDocumento generadorDeDocumento = (GeneradorDeDocumento) applicationContext
 				.getBean("generadorDeDocumento");
