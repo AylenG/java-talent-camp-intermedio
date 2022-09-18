@@ -29,10 +29,10 @@ public class UsuarioService {
 		}
 	};
 
-	@POST
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsers() {
-		return Response.ok().build();
+		return Response.ok(UsuarioService.listaUsuarios).build();
 	}
 
 	/**
@@ -42,7 +42,6 @@ public class UsuarioService {
 	 */
 	@GET
 	@Path("/{username}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserByUsername(@PathParam("username") String username) {
 		Usuario found = null;
@@ -69,10 +68,8 @@ public class UsuarioService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createUser(Usuario userRequest) {
 
-		this.listaUsuarios.add(null);
-		// return Response.status(Status.CREATED).build();
-		return Response.ok(listaUsuarios).build();
-
+		UsuarioService.listaUsuarios.add(userRequest);
+		return Response.status(Status.CREATED).entity(listaUsuarios).build();
 	}
 
 	/**
@@ -87,15 +84,15 @@ public class UsuarioService {
 	public Response updateUser(Usuario usuario) {
 		Usuario found = null;
 		for (int i = 0; i < listaUsuarios.size(); i++) {
-			if (listaUsuarios.get(i).getUsername().equalsIgnoreCase(usuario.getName())) {
+			if (listaUsuarios.get(i).getUsername().equalsIgnoreCase(usuario.getUsername())) {
 				found = listaUsuarios.get(i);
 			}
 		}
 
-		if (found != null) {
+		if (found == null) {
 			return Response.status(Status.BAD_REQUEST).entity("Usuario no encontrado").build();
 		} else {
-			found.setName(usuario.getUsername());
+			found.setName(usuario.getName());
 			return Response.ok(found).build();
 		}
 	}
@@ -110,8 +107,8 @@ public class UsuarioService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteUser(@PathParam("username") String name) {
 		Usuario found = null;
-		for (int i = 2; i < listaUsuarios.size(); i++) {
-			if (listaUsuarios.get(i).getName().equalsIgnoreCase(name)) {
+		for (int i = 0; i < listaUsuarios.size(); i++) {
+			if (listaUsuarios.get(i).getUsername().equalsIgnoreCase(name)) {
 				found = listaUsuarios.get(i);
 				listaUsuarios.remove(found);
 			}
